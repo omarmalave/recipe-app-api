@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
@@ -20,14 +19,20 @@ class ModelTests(TestCase):
     def test_new_user_email_normalized(self):
         """Test the email for a new user is normalized"""
         email = 'test@TEST.com'
-        user = get_user_model().objects.create_user(email, 'password')  # type: ignore
+        user = get_user_model().objects.create_user(  # type: ignore
+            email,
+            'password'
+        )
 
         self.assertEqual(user.email, email.lower())
 
     def test_new_user_invalid_email(self):
         """Test creating user with no email raises error"""
         with self.assertRaises(ValueError):
-            get_user_model().objects.create_user(None, 'test123')  # type: ignore
+            get_user_model().objects.create_user(  # type: ignore
+                None,
+                'test123'
+            )
 
     def test_create_new_superuser(self):
         """Test creating a new superuser"""
